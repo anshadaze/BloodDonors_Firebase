@@ -28,47 +28,42 @@ class _AddUserScreenState extends State<AddUserScreen> {
           children: [
             Padding(
               padding: const EdgeInsets.all(15.0),
-              child: donorNameField(),
+              child: TextFormField(
+              decoration: InputDecoration(
+                hintText: "Donor Name",hintStyle: const TextStyle(color: kRedColor,fontWeight: FontWeight.bold),
+                filled: true,
+                fillColor: kWhiteColor,
+                border: OutlineInputBorder(
+                  borderRadius:kRadius10,
+                  borderSide: BorderSide.none,
+                ),
+              ),
+            ),
             ),
 
 
             Padding(
               padding: const EdgeInsets.all(15.0),
-              child: phoneNumberField(),
+              child: TextFormField(
+              keyboardType: TextInputType.number,
+              maxLength: 10,
+                 decoration: InputDecoration(
+                hintText: "Phone Number",hintStyle: const TextStyle(color:kRedColor,fontWeight: FontWeight.bold ),
+                filled: true,
+                fillColor: kWhiteColor,
+                border: OutlineInputBorder(
+                  borderRadius:kRadius10,
+                  borderSide: BorderSide.none,
+                ),
+              ),
+           
+            ),
             ),
 
 
             Padding(
               padding: const EdgeInsets.all(15.0),
-              child: dropDownButton(),
-            ),
-
-
-            Padding(
-              padding: const EdgeInsets.all(15.0),
-              child: elevatedButton(),
-            )
-          ],
-        ),
-      ),
-    );
-  }
-
-  ElevatedButton elevatedButton() {
-    return ElevatedButton(
-                onPressed: () {},
-                style: ButtonStyle(
-                    minimumSize: MaterialStateProperty.all(
-                        const Size(double.infinity, 50)),
-                    backgroundColor: MaterialStateProperty.all(kWhiteColor)),
-                child: const Text(
-                  "Submit",
-                  style: TextStyle(fontSize: 20, color:kRedColor,fontWeight:  FontWeight.bold),
-                ));
-  }
-
-  Container dropDownButton() {
-    return Container(
+              child: Container(
               decoration: BoxDecoration(
                 borderRadius:kRadius10 ,
                 color: kWhiteColor),
@@ -95,37 +90,26 @@ class _AddUserScreenState extends State<AddUserScreen> {
                   selectedGroup = value;
                 },
               ),
-            );
-  }
+            ),
+            ),
 
-  TextFormField phoneNumberField() {
-    return TextFormField(
-              keyboardType: TextInputType.number,
-              maxLength: 10,
-                 decoration: InputDecoration(
-                hintText: "Phone Number",hintStyle: const TextStyle(color:kRedColor,fontWeight: FontWeight.bold ),
-                filled: true,
-                fillColor: kWhiteColor,
-                border: OutlineInputBorder(
-                  borderRadius:kRadius10,
-                  borderSide: BorderSide.none,
-                ),
-              ),
-           
-            );
-  }
 
-  TextFormField donorNameField() {
-    return TextFormField(
-              decoration: InputDecoration(
-                hintText: "Donor Name",hintStyle: const TextStyle(color: kRedColor,fontWeight: FontWeight.bold),
-                filled: true,
-                fillColor: kWhiteColor,
-                border: OutlineInputBorder(
-                  borderRadius:kRadius10,
-                  borderSide: BorderSide.none,
-                ),
-              ),
-            );
+            Padding(
+              padding: const EdgeInsets.all(15.0),
+              child: ElevatedButton(
+                onPressed: () {},
+                style: ButtonStyle(
+                    minimumSize: MaterialStateProperty.all(
+                        const Size(double.infinity, 50)),
+                    backgroundColor: MaterialStateProperty.all(kWhiteColor)),
+                child: const Text(
+                  "Submit",
+                  style: TextStyle(fontSize: 20, color:kRedColor,fontWeight:  FontWeight.bold),
+                )),
+            )
+          ],
+        ),
+      ),
+    );
   }
 }
