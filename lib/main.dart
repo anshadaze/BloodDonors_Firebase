@@ -1,6 +1,7 @@
+import 'package:blood_donation_app/view/add_screen/add_screen.dart';
 import 'package:blood_donation_app/view/home_screen/home_screen.dart';
+import 'package:blood_donation_app/view/update_screen/update_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 
 void main()async {
@@ -16,6 +17,12 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      routes: {
+        '/HomeScreen':(context) => HomeScreen(),
+        "/AddScreen":(context) => AddUserScreen(),
+        '/UpdateScreen':(context) => UpdateScreen()
+
+      },
       debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
       theme: ThemeData(
