@@ -1,6 +1,7 @@
 import 'package:blood_donation_app/constants.dart/contants.dart';
 import 'package:blood_donation_app/helpers.dart/colors.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class DonorNameField extends StatelessWidget {
   const DonorNameField({
@@ -16,19 +17,27 @@ class DonorNameField extends StatelessWidget {
       controller: donorNameController,
       decoration: InputDecoration(
         hintText: "Donor Name",
-        hintStyle: const TextStyle(
-            color: kRedColor, fontWeight: FontWeight.bold),
+        hintStyle: kHintTextstyle,
         filled: true,
         fillColor: kWhiteColor,
         border: OutlineInputBorder(
           borderRadius: kRadius10,
           borderSide: BorderSide.none,
         ),
+        errorStyle: const TextStyle(
+          color: kWhiteColor,
+        ),
       ),
+      validator: (value) {
+        if (value!.isEmpty) {
+          return 'Please enter name ';
+        } else {
+          return null;
+        }
+      },
     );
   }
 }
-
 
 class PhoneNumberField extends StatelessWidget {
   const PhoneNumberField({
@@ -44,18 +53,29 @@ class PhoneNumberField extends StatelessWidget {
       controller: donorPhoneController,
       keyboardType: TextInputType.number,
       maxLength: 10,
+      inputFormatters: [FilteringTextInputFormatter.allow(RegExp(r'[0-9]'))],
       decoration: InputDecoration(
         hintText: "Phone Number",
-        hintStyle: const TextStyle(
-            color: kRedColor, fontWeight: FontWeight.bold),
+        hintStyle: kHintTextstyle,
         filled: true,
         fillColor: kWhiteColor,
         border: OutlineInputBorder(
           borderRadius: kRadius10,
           borderSide: BorderSide.none,
         ),
+        errorStyle: const TextStyle(
+          color: kWhiteColor,
+        ),
       ),
+      validator: (value) {
+        if (value!.isEmpty) {
+          return 'please enter number';
+        } else if (value.length != 10) {
+          return 'Enter correct nUmber';
+        } else {
+          return null;
+        }
+      },
     );
   }
 }
-

@@ -1,21 +1,20 @@
+import 'package:blood_donation_app/services/firebase/firebase_services.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 class DonorProvider extends ChangeNotifier {
-  final CollectionReference firebaseDonors =
-      FirebaseFirestore.instance.collection('donor');
 
-  List<DocumentSnapshot> donors = [];
+  final FirebaseServices firebaseServices = FirebaseServices();
 
   void fetchDonors() {
-    firebaseDonors.orderBy('name').snapshots().listen((snapshot) {
-      donors = snapshot.docs;
+   firebaseServices.firebaseDonors.orderBy('name').snapshots().listen((snapshot) {
+    firebaseServices.donors = snapshot.docs;
       notifyListeners();
     });
   }
 
   void deleteDonor(String docId) {
-    firebaseDonors.doc(docId).delete();
+   firebaseServices.firebaseDonors.doc(docId).delete();
   }
 
 
@@ -35,7 +34,7 @@ class DonorProvider extends ChangeNotifier {
       'phone': donorPhone.text,
       'group': selectedGroup
     };
-    firebaseDonors.add(data);
+   firebaseServices.firebaseDonors.add(data);
   }
 
 
@@ -45,7 +44,7 @@ class DonorProvider extends ChangeNotifier {
       'phone': donorPhone.text,
       'group': selectedGroup
     };
-    firebaseDonors.doc(docId).update(data);
+   firebaseServices.firebaseDonors.doc(docId).update(data);
   }
 }
 
