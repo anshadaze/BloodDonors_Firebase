@@ -1,9 +1,11 @@
 import 'package:blood_donation_app/constants.dart/contants.dart';
+import 'package:blood_donation_app/controller/donor_provider.dart';
 import 'package:blood_donation_app/helpers.dart/colors.dart';
 import 'package:blood_donation_app/widgets/appbar_widget.dart';
 import 'package:blood_donation_app/widgets/filed_widget.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class UpdateScreen extends StatefulWidget {
   const UpdateScreen({super.key});
@@ -14,29 +16,15 @@ class UpdateScreen extends StatefulWidget {
 
 class _AddUserScreenState extends State<UpdateScreen> { 
   final bloodGroups = ['A+', "A-", 'B+', 'B-', 'O+', 'O-', 'AB+', 'AB-'];
-  String? selectedGroup;
-  final CollectionReference donor =
-      FirebaseFirestore.instance.collection('donor');
 
-      TextEditingController donorName=TextEditingController();
-       TextEditingController donorPhone=TextEditingController();
-
-       void updateDonor(docId){
-        final data={
-          'name':donorName.text,
-          'phone':donorPhone.text,
-          'group':selectedGroup
-        };
-        donor.doc(docId).update(data);
-
-       }
 
   @override
   Widget build(BuildContext context) {
+       final donorProvider = Provider.of<DonorProvider>(context);
     final args= ModalRoute.of(context)!.settings.arguments as Map;
-    donorName.text=args['name'];
-     donorPhone.text=args['phone'];
-    selectedGroup=args['group'];
+   donorProvider.donorName.text=args['name'];
+    donorProvider.donorPhone.text=args['phone'];
+    donorProvider. selectedGroup=args['group'];
     final docId=args['id']; 
 
     return SafeArea(
@@ -51,11 +39,11 @@ class _AddUserScreenState extends State<UpdateScreen> {
           children: [
             Padding(
               padding: const EdgeInsets.all(15.0),
-              child: DonorNameField(donorNameController: donorName),
+              child: DonorNameField(donorNameController:donorProvider.donorName),
             ),
             Padding(
               padding: const EdgeInsets.all(15.0),
-              child: PhoneNumberField(donorPhoneController: donorPhone),
+              child: PhoneNumberField(donorPhoneController:donorProvider. donorPhone),
             ),
             Padding(
               padding: const EdgeInsets.all(15.0),
@@ -63,7 +51,7 @@ class _AddUserScreenState extends State<UpdateScreen> {
                 decoration:
                     BoxDecoration(borderRadius: kRadius10, color: kWhiteColor),
                 child: DropdownButtonFormField(
-                  value: selectedGroup,
+                  value:donorProvider.selectedGroup,
                   decoration: const InputDecoration(
                       border: InputBorder.none,
                       label: Padding(
@@ -93,7 +81,7 @@ class _AddUserScreenState extends State<UpdateScreen> {
                   dropdownColor: kWhiteColor,
                   borderRadius: kRadius30,
                   onChanged: (value) {
-                      selectedGroup = value;
+                     donorProvider.selectedGroup = value;
                    
                     
                   },
@@ -105,7 +93,7 @@ class _AddUserScreenState extends State<UpdateScreen> {
               child: ElevatedButton(
                   onPressed: () {
                     Navigator.pop(context);
-                    updateDonor(docId);
+                  donorProvider.updateDonor(docId);
                   },
                   style: ButtonStyle(
                       minimumSize: MaterialStateProperty.all(

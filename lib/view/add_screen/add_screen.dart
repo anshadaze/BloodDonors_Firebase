@@ -1,9 +1,11 @@
 import 'package:blood_donation_app/constants.dart/contants.dart';
+import 'package:blood_donation_app/controller/donor_provider.dart';
 import 'package:blood_donation_app/helpers.dart/colors.dart';
 import 'package:blood_donation_app/widgets/appbar_widget.dart';
 import 'package:blood_donation_app/widgets/filed_widget.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class AddUserScreen extends StatefulWidget {
   const AddUserScreen({super.key});
@@ -14,19 +16,9 @@ class AddUserScreen extends StatefulWidget {
 
 class _AddUserScreenState extends State<AddUserScreen> {
   final bloodGroups = ['A+', "A-", 'B+', 'B-', 'O+', 'O-', 'AB+', 'AB-'];
-  String? selectedGroup;
-  final CollectionReference donor =
-      FirebaseFirestore.instance.collection('donor');
-
-      TextEditingController donorName=TextEditingController();
-       TextEditingController donorPhone=TextEditingController();
-  void addDonor() {
-    final data = {'name': donorName.text, 'phone': donorPhone.text, "group": selectedGroup};
-    donor.add(data);
-  }
-
   @override
   Widget build(BuildContext context) {
+        final donorProvider = Provider.of<DonorProvider>(context);
     return SafeArea(
       child: Scaffold(
         backgroundColor: appBackgroundColor,
@@ -39,11 +31,11 @@ class _AddUserScreenState extends State<AddUserScreen> {
           children: [
             Padding(
               padding: const EdgeInsets.all(15.0),
-              child: DonorNameField(donorNameController: donorName),
+              child: DonorNameField(donorNameController:donorProvider.donorName),
             ),
             Padding(
               padding: const EdgeInsets.all(15.0),
-              child: PhoneNumberField(donorPhoneController: donorPhone),
+              child: PhoneNumberField(donorPhoneController:donorProvider.donorPhone),
             ),
             Padding(
               padding: const EdgeInsets.all(15.0),
@@ -80,7 +72,7 @@ class _AddUserScreenState extends State<AddUserScreen> {
                   dropdownColor: kWhiteColor,
                   borderRadius: kRadius30,
                   onChanged: (value) {
-                    selectedGroup = value;
+                  donorProvider.selectedGroup = value;
                   },
                 ),
               ),
@@ -89,7 +81,7 @@ class _AddUserScreenState extends State<AddUserScreen> {
               padding: const EdgeInsets.all(15.0),
               child: ElevatedButton(
                   onPressed: () {
-                    addDonor();
+                   donorProvider.addDonor();
                     Navigator.pop(context);
                   },
                   style: ButtonStyle(
