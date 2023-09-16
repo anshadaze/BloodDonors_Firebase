@@ -24,17 +24,17 @@ class HomeScreen extends StatelessWidget {
         floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
         body: Consumer<DonorProvider>(
           builder: (context, provider, child) {
-            if (provider.firebaseServices.donors.isEmpty) {
+            if (provider.donors.isEmpty) {
               Provider.of<InternetConnectivityProvider>(context, listen: false)
                   .getInternetConnectivity(context);
               provider.fetchDonors();
               return const Center(child: Text('no data'));
             }
             return ListView.builder(
-              itemCount: provider.firebaseServices.donors.length,
+              itemCount: provider.donors.length,
               itemBuilder: (context, index) {
                 final DocumentSnapshot donorSnap =
-                    provider.firebaseServices.donors[index];
+                    provider.donors[index];
                 return Padding(
                   padding: const EdgeInsets.all(10.0),
                   child: Container(
