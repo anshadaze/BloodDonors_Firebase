@@ -5,10 +5,10 @@ class FirebaseServices {
   final CollectionReference firebaseDonors =
       FirebaseFirestore.instance.collection('donor');
 
-  Future<List<Donor>> fetchDonors() async {
+  Future<List<DonorModel>> fetchDonors() async {
     final snapshot = await firebaseDonors.orderBy('name').get();
     return snapshot.docs.map((doc) {
-      return Donor.fromMap(doc.data() as Map<String, dynamic>, doc.id);
+      return DonorModel.fromMap(doc.data() as Map<String, dynamic>, doc.id);
     }).toList();
   }
 
@@ -16,12 +16,12 @@ class FirebaseServices {
     firebaseDonors.doc(docId).delete();
   }
 
-  void addDonor(Donor donor) {
+  void addDonor(DonorModel donor) {
     final data = donor.toMap();
     firebaseDonors.add(data);
   }
 
-  void updateDonor(Donor donor) {
+  void updateDonor(DonorModel donor) {
     final data = donor.toMap();
     firebaseDonors.doc(donor.id).update(data);
   }

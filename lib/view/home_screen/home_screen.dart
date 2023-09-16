@@ -33,7 +33,7 @@ class HomeScreen extends StatelessWidget {
             return ListView.builder(
               itemCount: provider.donors.length,
               itemBuilder: (context, index) {
-                final Donor donor=provider.donors[index];
+                final DonorModel donor=provider.donors[index];
                 return Padding(
                   padding: const EdgeInsets.all(10.0),
                   child: Container(

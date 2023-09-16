@@ -1,19 +1,19 @@
-class Donor{
+class DonorModel{
    String? id;
    String? name;
    String? phone;
    String? group;
 
 
-   Donor({
+   DonorModel({
     required this.id,
     required this.name,
     required this.phone,
     required this.group
    });
 
-   factory Donor.fromMap(Map<String,dynamic>map,String id){
-    return Donor(
+   factory DonorModel.fromMap(Map<String,dynamic>map,String id){
+    return DonorModel(
       id: id,
       name: map['name'] ?? '',
       phone: map['phone'] ?? '',

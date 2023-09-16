@@ -7,7 +7,7 @@ class DonorProvider extends ChangeNotifier {
   String? selectedGroup;
   TextEditingController donorName = TextEditingController();
   TextEditingController donorPhone = TextEditingController();
-  List<Donor> donors = [];
+  List<DonorModel> donors = [];
 
   Future<void> fetchDonors() async {
     donors = await firebaseServices.fetchDonors();
@@ -26,7 +26,7 @@ class DonorProvider extends ChangeNotifier {
   }
 
   void addDonor() async {
-   final donor=Donor(
+   final donor=DonorModel(
     id: "",
      name:donorName.text,
       phone: donorPhone.text,
@@ -39,7 +39,7 @@ class DonorProvider extends ChangeNotifier {
   }
 
   void updateDonor(String docId) async { 
-  final donor=Donor(
+  final donor=DonorModel(
     id: docId,
      name:donorName.text,
       phone: donorPhone.text,
