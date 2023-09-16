@@ -1,5 +1,5 @@
+import 'package:blood_donation_app/model/donors_model.dart';
 import 'package:blood_donation_app/services/firebase/firebase_services.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 class DonorProvider extends ChangeNotifier {
@@ -7,7 +7,7 @@ class DonorProvider extends ChangeNotifier {
   String? selectedGroup;
   TextEditingController donorName = TextEditingController();
   TextEditingController donorPhone = TextEditingController();
-  List<DocumentSnapshot> donors = [];
+  List<Donor> donors = [];
 
   Future<void> fetchDonors() async {
     donors = await firebaseServices.fetchDonors();
@@ -26,22 +26,26 @@ class DonorProvider extends ChangeNotifier {
   }
 
   void addDonor() async {
-    firebaseServices.addDonor(
-      name: donorName.text,
+   final donor=Donor(
+    id: "",
+     name:donorName.text,
       phone: donorPhone.text,
-      selectedGroup: selectedGroup.toString(),
-    );
-    await fetchDonors();
+       group: selectedGroup,
+       );
+     firebaseServices.addDonor( donor);
+      await fetchDonors();
     notifyListeners();
+
   }
 
-  void updateDonor(String docId) async {
-    firebaseServices.updateDonor(
-      docId,
-      name: donorName.text,
+  void updateDonor(String docId) async { 
+  final donor=Donor(
+    id: docId,
+     name:donorName.text,
       phone: donorPhone.text,
-      selectedGroup: selectedGroup.toString(),
-    );
+       group:selectedGroup
+       );
+       firebaseServices.updateDonor(donor);
     await fetchDonors();
     notifyListeners();
   }

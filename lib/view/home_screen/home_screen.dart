@@ -1,8 +1,8 @@
 import 'package:blood_donation_app/controller/donor_provider.dart';
 import 'package:blood_donation_app/controller/internetconnectivity_provider.dart';
 import 'package:blood_donation_app/helpers.dart/colors.dart';
+import 'package:blood_donation_app/model/donors_model.dart';
 import 'package:blood_donation_app/widgets/appbar_widget.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -33,8 +33,7 @@ class HomeScreen extends StatelessWidget {
             return ListView.builder(
               itemCount: provider.donors.length,
               itemBuilder: (context, index) {
-                final DocumentSnapshot donorSnap =
-                    provider.donors[index];
+                final Donor donor=provider.donors[index];
                 return Padding(
                   padding: const EdgeInsets.all(10.0),
                   child: Container(
@@ -58,7 +57,7 @@ class HomeScreen extends StatelessWidget {
                             backgroundColor: kRedColor,
                             radius: 30,
                             child: Text(
-                              donorSnap['group'],
+                             donor.group.toString(),
                               style: const TextStyle(
                                   color: kWhiteColor,
                                   fontWeight: FontWeight.bold,
@@ -70,14 +69,14 @@ class HomeScreen extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Text(
-                              donorSnap['name'],
+                              donor.name.toString(),
                               style: const TextStyle(
                                   color: kRedColor,
                                   fontWeight: FontWeight.bold,
                                   fontSize: 20),
                             ),
                             Text(
-                              donorSnap['phone'].toString(),
+                              donor.phone.toString(),
                               style: TextStyle(
                                   color: kRedColor,
                                   fontWeight: FontWeight.bold),
@@ -90,10 +89,10 @@ class HomeScreen extends StatelessWidget {
                               onPressed: () {
                                 Navigator.pushNamed(context, '/UpdateScreen',
                                     arguments: {
-                                      'name': donorSnap['name'],
-                                      'phone': donorSnap['phone'].toString(),
-                                      'group': donorSnap['group'],
-                                      'id': donorSnap.id
+                                      'name': donor.name,
+                                      'phone': donor.phone.toString(),
+                                      'group': donor.group,
+                                      'id': donor.id
                                     });
                               },
                               icon: const Icon(Icons.edit),
@@ -102,7 +101,7 @@ class HomeScreen extends StatelessWidget {
                             ),
                             IconButton(
                               onPressed: () {
-                                provider.deleteDonor(donorSnap.id);
+                                provider.deleteDonor(donor.id.toString());
                               },
                               icon: const Icon(Icons.delete),
                               iconSize: 25,

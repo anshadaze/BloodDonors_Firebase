@@ -1,42 +1,28 @@
+import 'package:blood_donation_app/model/donors_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/material.dart';
 
 class FirebaseServices {
   final CollectionReference firebaseDonors =
       FirebaseFirestore.instance.collection('donor');
 
-
-  Future<List<DocumentSnapshot>> fetchDonors() async {
+  Future<List<Donor>> fetchDonors() async {
     final snapshot = await firebaseDonors.orderBy('name').get();
-    return snapshot.docs;
+    return snapshot.docs.map((doc) {
+      return Donor.fromMap(doc.data() as Map<String, dynamic>, doc.id);
+    }).toList();
   }
 
   void deleteDonor(String docId) {
     firebaseDonors.doc(docId).delete();
   }
 
-  void addDonor({
-    required String name,
-    required String phone,
-    required String selectedGroup,
-  }) {
-    final data = {'name': name, 'phone': phone, 'group': selectedGroup};
+  void addDonor(Donor donor) {
+    final data = donor.toMap();
     firebaseDonors.add(data);
   }
 
-
-      void updateDonor(
-        String docId,
-        {
-          required String name,
-          required String phone,
-          required String selectedGroup,
-        }) {
-    final data = {
-      'name': name,
-      'phone': phone,
-      'group': selectedGroup
-    };
-   firebaseDonors.doc(docId).update(data);
+  void updateDonor(Donor donor) {
+    final data = donor.toMap();
+    firebaseDonors.doc(donor.id).update(data);
   }
 }
