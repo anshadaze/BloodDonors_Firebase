@@ -1,3 +1,4 @@
+import 'package:blood_donation_app/constants.dart/contants.dart';
 import 'package:blood_donation_app/controller/donor_provider.dart';
 import 'package:blood_donation_app/controller/internetconnectivity_provider.dart';
 import 'package:blood_donation_app/helpers.dart/colors.dart';
@@ -8,9 +9,11 @@ import 'package:provider/provider.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
+  
 
   @override
   Widget build(BuildContext context) {
+    
     final Size size = MediaQuery.of(context).size;
     return SafeArea(
       child: Scaffold(
@@ -28,7 +31,7 @@ class HomeScreen extends StatelessWidget {
               Provider.of<InternetConnectivityProvider>(context, listen: false)
                   .getInternetConnectivity(context);
               provider.fetchDonors();
-              return const Center(child: Text('no data'));
+              return const Center(child: Text('Empty',style: kAppBarStyle,));
             }
             return ListView.builder(
               itemCount: provider.donors.length,
@@ -122,9 +125,14 @@ class HomeScreen extends StatelessWidget {
   }
 
   FloatingActionButton floatingActionButton(BuildContext context) {
+    final donorProvider = Provider.of<DonorProvider>(context);
     return FloatingActionButton(
+  
       onPressed: () {
+        
         Navigator.pushNamed(context, '/AddScreen');
+        donorProvider.donorName.clear();
+            donorProvider.donorPhone.clear();
       },
       backgroundColor: kWhiteColor,
       shape: const CircleBorder(),

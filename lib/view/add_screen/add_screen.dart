@@ -22,6 +22,9 @@ class AddUserScreen extends StatelessWidget {
             preferredSize: const Size.fromHeight(50),
             child: AppBarWidget(
               title: "Add Donors",
+              leading:IconButton(onPressed: (){Navigator.of(context).pop();}, icon:const Icon(Icons.arrow_back_outlined,color: kWhiteColor,)),
+                action: [Icon(Icons.abc,color: kRedColor,),Icon(Icons.abc,color: kRedColor,),],
+            
             )),
         body: Form(
           key: formkey,
